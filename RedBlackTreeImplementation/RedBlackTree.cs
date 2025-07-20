@@ -1,4 +1,5 @@
-﻿using System.Xml.Linq;
+﻿using System.ComponentModel.Design;
+using System.Xml.Linq;
 
 namespace RedBlackTreeImplementation
 {
@@ -40,8 +41,8 @@ namespace RedBlackTreeImplementation
                 return current;
             }
 
-
-            if (current.Value.CompareTo(value) > 0)
+            if (current.Value.CompareTo(value) == 0) throw new Exception("duplicates");
+            else if (current.Value.CompareTo(value) > 0)
             {
                 current.LeftChild = InsertRec(value, current.LeftChild);
             }
@@ -92,7 +93,37 @@ namespace RedBlackTreeImplementation
             return temp;
         }
 
+        public bool Remove(Node<T> node)
+        {
+            return true;
+        }
 
+        private void MoveRedLeft(Node<T> node)
+        {
+            if(IsRed(node.LeftChild) == false && IsRed(node.LeftChild.LeftChild) == false && IsRed(node.LeftChild.RightChild) == false)
+            {
+                FlipColor(node);
+                if(IsRed(node.RightChild.LeftChild))
+                {
+                    node.RightChild = RotateRight(node.RightChild);
+                    node = RotateLeft(node);
+                    FlipColor(node);
+                }
+            }
+        }
+
+        private void MoveRedRight(Node<T> node)
+        {
+            if(IsRed(node.RightChild) == false && IsRed(node.RightChild.LeftChild) == false && IsRed(node.RightChild.RightChild) == false)
+            {
+                FlipColor(node);
+                if(IsRed(node.LeftChild.LeftChild))
+                {
+                    node = RotateRight(node);
+                    FlipColor(node);
+                }
+            }
+        }
 
 
     }
