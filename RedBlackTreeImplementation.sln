@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.14.36301.6 d17.14
+VisualStudioVersion = 17.14.36301.6
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RedBlackTreeImplementation", "RedBlackTreeImplementation\RedBlackTreeImplementation.csproj", "{1C65BFE0-6074-4528-A68A-F34F8A8960E4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTest", "UnitTest\UnitTest.csproj", "{9D3E0DB1-BE73-4316-B54B-65DDBAAAE73C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RedBlackTreeConsole", "RedBlackTreeConsole\RedBlackTreeConsole.csproj", "{ECFD1625-EA37-48DC-8375-FF61257BB928}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{9D3E0DB1-BE73-4316-B54B-65DDBAAAE73C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9D3E0DB1-BE73-4316-B54B-65DDBAAAE73C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9D3E0DB1-BE73-4316-B54B-65DDBAAAE73C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ECFD1625-EA37-48DC-8375-FF61257BB928}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ECFD1625-EA37-48DC-8375-FF61257BB928}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ECFD1625-EA37-48DC-8375-FF61257BB928}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ECFD1625-EA37-48DC-8375-FF61257BB928}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
