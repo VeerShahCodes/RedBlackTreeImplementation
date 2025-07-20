@@ -1,7 +1,4 @@
-﻿using System.ComponentModel.Design;
-using System.Xml.Linq;
-
-namespace RedBlackTreeImplementation
+﻿namespace RedBlackTreeImplementation
 {
     public class RedBlackTree<T> where T : IComparable<T>
     {
@@ -69,7 +66,7 @@ namespace RedBlackTreeImplementation
             
         }
 
-        public Node<T>? RotateLeft(Node<T> current)
+        public Node<T> RotateLeft(Node<T> current)
         {
 
             Node<T> temp = current.RightChild!;
@@ -81,7 +78,7 @@ namespace RedBlackTreeImplementation
 
             return temp;
         }
-        private Node<T>? RotateRight(Node<T> current)
+        private Node<T> RotateRight(Node<T> current)
         {
             Node<T> temp = current.LeftChild!;
             current.LeftChild = temp.RightChild;
@@ -93,11 +90,77 @@ namespace RedBlackTreeImplementation
             return temp;
         }
 
-        public bool Remove(Node<T> node)
+        public Node<T> Remove(T value)
         {
-            return true;
+            return RemoveRec(value, Root);
+        }
+        private Node<T> RemoveRec(T value, Node<T> node)
+        {
+
+            if(value.CompareTo(node.Value) < 0)
+            {
+                if(!IsRed(node.LeftChild) && !IsRed(node.LeftChild.LeftChild))
+                {
+                    MoveRedLeft(node);
+                }
+                return RemoveRec(value, node.LeftChild);
+            }
+            else if(value.CompareTo(node.Value) > 0 || value.CompareTo(node.Value) == 0)
+            {
+                if(IsRed(node.LeftChild))
+                {
+                    node = RotateRight(node);
+                }
+                if(!IsRed(node.RightChild) && !IsRed(node.RightChild.RightChild))
+                {
+                    MoveRedRight(node);
+                }
+
+
+                if(node.LeftChild == null && node.RightChild == null)
+                {
+                    Node<T> nodeTemp = node;
+                    node = null;
+                    return nodeTemp;
+                }
+                else
+                {
+                    if(node.Value.Equals(value))
+                    {
+                        if (node.RightChild != null)
+                        {
+                            MoveRedRight(node);
+                            node = node.RightChild;
+                        }
+                        Node<T> repNode = FindReplacementNode(node);
+
+                        T tempVal = repNode.Value;
+                        repNode = null;
+                        Node<T> nodeTemp = node;
+                        node.Value = tempVal;
+                        return nodeTemp;
+                    }
+                    else
+                    {
+                        return RemoveRec(value, node.RightChild);
+                    }
+
+
+                }
+            }
+            node = Fixup(node);
+            return null;
         }
 
+        private Node<T> FindReplacementNode(Node<T> current)
+        {
+            if(current.LeftChild == null)
+            {
+                return current;
+            }
+            MoveRedLeft(current);
+            return FindReplacementNode(current.LeftChild);
+        }
         private void MoveRedLeft(Node<T> node)
         {
             if(IsRed(node.LeftChild) == false && IsRed(node.LeftChild.LeftChild) == false && IsRed(node.LeftChild.RightChild) == false)
@@ -123,6 +186,30 @@ namespace RedBlackTreeImplementation
                     FlipColor(node);
                 }
             }
+        }
+
+        private Node<T> Fixup(Node<T> current)
+        {
+            if (IsRed(current.RightChild) && !IsRed(current.LeftChild))
+            {
+                current = RotateLeft(current);
+            }
+            if (IsRed(current.LeftChild) && IsRed(current.LeftChild.LeftChild))
+            {
+                current = RotateRight(current);
+            }
+
+            if(IsRed(current.LeftChild) && IsRed(current.RightChild) && !IsRed(current))
+            {
+                FlipColor(current);
+            }
+
+            if(!IsRed(current.LeftChild) && IsRed(current.LeftChild.RightChild) && !IsRed(current.LeftChild.LeftChild))
+            {
+                current.LeftChild = RotateLeft(current.LeftChild);
+                current = RotateRight(current);
+            } 
+            return current;
         }
 
 

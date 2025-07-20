@@ -6,11 +6,7 @@ namespace RedBlackTreeConsole
         static void Main(string[] args)
         {
             RedBlackTree<int> redBlackTree = new RedBlackTree<int>();
-            for(int i = 0; i < 5; i++)
-            {
-                
-                redBlackTree.Insert(i);
-            }
+            
             ;
 
         }
