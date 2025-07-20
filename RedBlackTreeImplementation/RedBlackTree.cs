@@ -40,10 +40,6 @@ namespace RedBlackTreeImplementation
                 return current;
             }
 
-            if (IsRed(current.LeftChild) && IsRed(current.RightChild))
-            {
-                FlipColor(current);
-            }
 
             if (current.Value.CompareTo(value) > 0)
             {
@@ -54,7 +50,7 @@ namespace RedBlackTreeImplementation
                 current.RightChild = InsertRec(value, current.RightChild);
             }
 
-            if (IsRed(current.RightChild))
+            if (IsRed(current.RightChild) && !IsRed(current.LeftChild))
             {
                 current = RotateLeft(current);
             }
@@ -62,11 +58,12 @@ namespace RedBlackTreeImplementation
             {
                 current = RotateRight(current);
             }
+            if (IsRed(current.LeftChild) && IsRed(current.RightChild))
+            {
+                FlipColor(current);
+            }
 
-            //if (current.LeftChild != null && current.LeftChild.IsBlack == false && current.LeftChild.LeftChild != null && current.LeftChild.LeftChild.IsBlack == false)
-            //{
-            //    current = RotateRight(current);
-            //}
+
             return current;
             
         }
@@ -95,6 +92,8 @@ namespace RedBlackTreeImplementation
             return temp;
         }
 
-        
+
+
+
     }
 }
