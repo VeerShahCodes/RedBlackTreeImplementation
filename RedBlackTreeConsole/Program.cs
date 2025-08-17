@@ -6,29 +6,29 @@ namespace RedBlackTreeConsole
         static void Main(string[] args)
         {
             RedBlackTree<int> redBlackTree = new RedBlackTree<int>();
-            redBlackTree.Insert(10);
-            redBlackTree.Insert(20);
-            redBlackTree.Insert(30);
-            redBlackTree.Insert(15);
-            redBlackTree.Insert(25);
-            redBlackTree.Insert(5);
+            redBlackTree.Add(10);
+            redBlackTree.Add(20);
+            redBlackTree.Add(30);
+            redBlackTree.Add(15);
+            redBlackTree.Add(25);
+            redBlackTree.Add(5);
             redBlackTree.Remove(25);
             redBlackTree.Remove(15);
             redBlackTree.Remove(10);
             ;
 
-            redBlackTree.Insert(86);
-            redBlackTree.Insert(99);
-            redBlackTree.Insert(37);
-            redBlackTree.Insert(342);
-            redBlackTree.Insert(242);
+            redBlackTree.Add(86);
+            redBlackTree.Add(99);
+            redBlackTree.Add(37);
+            redBlackTree.Add(342);
+            redBlackTree.Add(242);
             ;
 
 
             redBlackTree.Remove(20);
             redBlackTree.Remove(99);
             ;
-
+            redBlackTree.Ceiling(5);
         }
     }
 }

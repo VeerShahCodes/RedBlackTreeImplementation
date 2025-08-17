@@ -1,11 +1,24 @@
-﻿using System.Xml.Linq;
+﻿using SortedSet;
+using System.Collections;
+using System.Windows.Markup;
 
 namespace RedBlackTreeImplementation
 {
-    public class RedBlackTree<T> where T : IComparable<T>
+    public class RedBlackTree<T> : ISortedSet<T> where T : IComparable<T>
     {
         public Node<T>? Root { get; private set; }
 
+        private int count = 0;
+        public int Count => count;
+
+        IComparer<T> ISortedSet<T>.Comparer => comparer;
+
+        private IComparer<T> comparer;
+
+        public RedBlackTree(IComparer<T> comparer)
+        {
+            this.comparer = comparer;
+        }
 
         private void FlipColor(Node<T> current)
         {
@@ -14,16 +27,25 @@ namespace RedBlackTreeImplementation
             if (current.RightChild != null) current.RightChild.IsBlack = !current.RightChild.IsBlack;
         }
 
-        public void Insert(T value)
+        public void Clear()
+        {
+            Root = null;
+        }
+
+        public bool Add(T value)
         {
             if(Root == null)
             {
                 Root = new Node<T>(true);
                 Root.Value = value;
-                return;
+                count++;
+                return true;
             }
             Root = InsertRec(value, Root);
             Root.IsBlack = true;
+            return true;
+            count++;
+
         }
 
         private bool IsRed(Node<T>? node)
@@ -40,7 +62,7 @@ namespace RedBlackTreeImplementation
                 return current;
             }
 
-            if (current.Value.CompareTo(value) == 0) throw new Exception("duplicates");
+            if (comparer.Compare(current.Value, value) == 0) throw new Exception("duplicates");
             else if (current.Value.CompareTo(value) > 0)
             {
                 current.LeftChild = InsertRec(value, current.LeftChild);
@@ -92,12 +114,16 @@ namespace RedBlackTreeImplementation
             return temp;
         }
 
-        public void Remove(T value)
+        private bool success = false;
+        public bool Remove(T value)
         {
+            
             Root = RemoveRec(value, Root);
+            return success;
         }
         private Node<T> RemoveRec(T value, Node<T> node)
         {
+            success = false;
 
             if(value.CompareTo(node.Value) < 0)
             {
@@ -123,6 +149,8 @@ namespace RedBlackTreeImplementation
                 {
                     //Node<T> nodeTemp = node;
                     node = null;
+                    success = true;
+                    count--;
                     return node;
                     //return nodeTemp;
                 }
@@ -134,6 +162,8 @@ namespace RedBlackTreeImplementation
                         Node<T> repNode = FindReplacementNode(node.RightChild);
                         node.Value = repNode.Value;
                         node.RightChild = DeleteReplacementNode(node.RightChild);
+                        count--;
+                        success = true;
 
 
                     }
@@ -149,7 +179,7 @@ namespace RedBlackTreeImplementation
             {
                 node = Fixup(node);
             }
-        
+            
             return node;
         }
 
@@ -255,5 +285,103 @@ namespace RedBlackTreeImplementation
             }
         }
 
+        public bool Contains(T value)
+        {
+            if (SearchRec(value, Root) != null) return true;
+            return false;
+        }
+
+        public T Min()
+        {
+            Node<T> current = Root;
+            while(current.LeftChild != null)
+            {
+                current = current.LeftChild;
+            }
+            return current.Value;
+        }
+
+        public T Max()
+        {
+            Node<T> current = Root;
+            while(current.RightChild != null)
+            {
+                current = current.RightChild;
+            }
+            return current.Value;
+        }
+
+        public void AddRange(IEnumerable<T> collection)
+        {
+            foreach(T item in collection)
+            {
+                Add(item);
+            }
+        }
+
+        public List<T> InOrderTraversal()
+        {
+            List<T> list = new List<T>();
+            InOrderTraversal(Root, list);
+            return list;
+        }
+        private void InOrderTraversal(Node<T> current, List<T> list)
+        {
+            if (current == null) return;
+            InOrderTraversal(current.LeftChild,  list);
+            list.Add(current.Value);
+            InOrderTraversal(current.RightChild, list);
+        }
+
+
+        public T Ceiling(T value)
+        {
+            List<T> values = InOrderTraversal();
+            if (values.Contains(value)) return value;
+            else
+            {
+                foreach(var item in values)
+                {
+                    if (item.CompareTo(value) > 0) return item;
+                }
+            }
+            return default;
+
+
+        }
+
+        public T Floor(T value)
+        {
+            List<T> values = InOrderTraversal();
+            if (values.Contains(value)) return value;
+            else
+            {
+                for(int i = values.Count - 1; i > - 1; i--)
+                {
+                    if (values[i].CompareTo(value) < 0) return values[i];
+                }
+            }
+            return default;
+        }
+
+        ISortedSet<T> ISortedSet<T>.Union(ISortedSet<T> other)
+        {
+            throw new NotImplementedException();
+        }
+
+        ISortedSet<T> ISortedSet<T>.Intersection(ISortedSet<T> other)
+        {
+            throw new NotImplementedException();
+        }
+
+        IEnumerator<T> IEnumerable<T>.GetEnumerator()
+        {
+            throw new NotImplementedException();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
