@@ -232,6 +232,28 @@ namespace RedBlackTreeImplementation
             return current;
         }
 
+        public Node<T>? Search(T value)
+        {
+            return SearchRec(value, Root);
+        }
+
+        private Node<T>? SearchRec(T value, Node<T>? current)
+        {
+            if (current == null) return null;
+            int comparison = current.Value.CompareTo(value);
+            if (comparison == 0)
+            {
+                return current;
+            }
+            else if (comparison > 0)
+            {
+                return SearchRec(value, current.LeftChild);
+            }
+            else
+            {
+                return SearchRec(value, current.RightChild);
+            }
+        }
 
     }
 }

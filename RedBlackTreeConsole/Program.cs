@@ -12,7 +12,7 @@ namespace RedBlackTreeConsole
             redBlackTree.Insert(15);
             redBlackTree.Insert(25);
             redBlackTree.Insert(5);
-
+            
 
 
         }
