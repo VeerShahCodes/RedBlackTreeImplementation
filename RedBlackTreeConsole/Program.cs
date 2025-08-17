@@ -16,8 +16,18 @@ namespace RedBlackTreeConsole
             redBlackTree.Remove(15);
             redBlackTree.Remove(10);
             ;
-            
 
+            redBlackTree.Insert(86);
+            redBlackTree.Insert(99);
+            redBlackTree.Insert(37);
+            redBlackTree.Insert(342);
+            redBlackTree.Insert(242);
+            ;
+
+
+            redBlackTree.Remove(20);
+            redBlackTree.Remove(99);
+            ;
 
         }
     }
