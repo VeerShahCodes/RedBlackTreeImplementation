@@ -11,7 +11,7 @@ namespace UnitTest
             for(int i = 0; i < 5; i++)
             {
                 
-                redBlackTree.Insert(random.Next(5));
+                redBlackTree.Insert(i);
             }
 
             ;
@@ -20,7 +20,17 @@ namespace UnitTest
         [Fact]
         public void RemoveTest()
         {
-            
+            RedBlackTree<int> redBlackTree = new RedBlackTree<int>();
+            for(int i = 0; i < 100; i++)
+            {
+                redBlackTree.Insert(i);
+            }
+            ;
+            for(int i = 0; i < 100; i++)
+            {
+                redBlackTree.Remove(i);
+            }
+            ;
         }
     }
 }
