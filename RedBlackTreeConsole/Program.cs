@@ -5,7 +5,8 @@ namespace RedBlackTreeConsole
     {
         static void Main(string[] args)
         {
-            RedBlackTree<int> redBlackTree = new RedBlackTree<int>();
+            Comparer<int> comparer = Comparer<int>.Default;
+            RedBlackTree<int> redBlackTree = new RedBlackTree<int>(comparer);
             redBlackTree.Add(10);
             redBlackTree.Add(20);
             redBlackTree.Add(30);
@@ -30,5 +31,6 @@ namespace RedBlackTreeConsole
             ;
             redBlackTree.Ceiling(5);
         }
+   
     }
 }

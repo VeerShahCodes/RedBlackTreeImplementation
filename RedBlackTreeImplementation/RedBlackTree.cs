@@ -61,9 +61,9 @@ namespace RedBlackTreeImplementation
                 current.Value = value;
                 return current;
             }
-
+            
             if (comparer.Compare(current.Value, value) == 0) throw new Exception("duplicates");
-            else if (current.Value.CompareTo(value) > 0)
+            else if (comparer.Compare(current.Value, value) > 0)
             {
                 current.LeftChild = InsertRec(value, current.LeftChild);
             }
@@ -125,7 +125,7 @@ namespace RedBlackTreeImplementation
         {
             success = false;
 
-            if(value.CompareTo(node.Value) < 0)
+            if(comparer.Compare(value, node.Value) < 0)
             {
                 if(!IsRed(node.LeftChild) && !IsRed(node.LeftChild.LeftChild))
                 {
@@ -270,7 +270,8 @@ namespace RedBlackTreeImplementation
         private Node<T>? SearchRec(T value, Node<T>? current)
         {
             if (current == null) return null;
-            int comparison = current.Value.CompareTo(value);
+            int comparison = comparer.Compare(current.Value, value);
+         
             if (comparison == 0)
             {
                 return current;
@@ -342,7 +343,7 @@ namespace RedBlackTreeImplementation
             {
                 foreach(var item in values)
                 {
-                    if (item.CompareTo(value) > 0) return item;
+                    if (comparer.Compare(item, value) > 0) return item;
                 }
             }
             return default;
@@ -358,7 +359,7 @@ namespace RedBlackTreeImplementation
             {
                 for(int i = values.Count - 1; i > - 1; i--)
                 {
-                    if (values[i].CompareTo(value) < 0) return values[i];
+                    if (comparer.Compare(values[i], value) < 0) return values[i];
                 }
             }
             return default;
@@ -366,22 +367,44 @@ namespace RedBlackTreeImplementation
 
         ISortedSet<T> ISortedSet<T>.Union(ISortedSet<T> other)
         {
-            throw new NotImplementedException();
+            RedBlackTree<T> set = new RedBlackTree<T>(comparer);
+
+            foreach(var item in other)
+            {
+                set.Add(item);
+            }
+            foreach(var item in this)
+            {
+                if(!set.Contains(item))
+                {
+                    set.Add(item);
+                }
+            }
+
+            return set;
         }
 
         ISortedSet<T> ISortedSet<T>.Intersection(ISortedSet<T> other)
         {
-            throw new NotImplementedException();
+            RedBlackTree<T> set = new RedBlackTree<T> (comparer);
+            foreach(var item in other)
+            {
+                if(this.Contains(item))
+                {
+                    set.Add(item);
+                }
+            }
+            return set;
         }
 
         IEnumerator<T> IEnumerable<T>.GetEnumerator()
         {
-            throw new NotImplementedException();
+            return InOrderTraversal().GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            throw new NotImplementedException();
+            return InOrderTraversal().GetEnumerator();
         }
     }
 }
